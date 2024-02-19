@@ -42,10 +42,23 @@ p {
   
 #tilemap
 {
-    width: 880px;
+    width: 980px;
     height:  608px;
     top: 0px;
     left: 0px;
+    
+}
+
+
+#door2
+{
+
+    width: 44px;
+    height: 54px;
+    background-color: hotpink;
+    opacity: 2;
+    top: 310px;
+    left: 110px;
 }
 #door1
 {
@@ -57,7 +70,16 @@ p {
     top: 150px;
     left: 400px;
 }
+#key1
+{
 
+    width: 32px;
+    height: 32px;
+    background-color: rgb(246, 255, 0);
+    opacity: 1;
+    top: 166px;
+    left: 416px;
+}
 
 #inventoryBox {
     position: relative;
