@@ -1,56 +1,90 @@
-document.getElementById("mainTitle").innerText = "Point and Click adventure game";
-//gameWindow
+document.getElementById("mainTitle").innerText = "Point and Click Adventure Game";
+
 const GameWindow = document.getElementById("gameWindow");
+const MainCharacter = document.getElementById("mainCharacter");
+const door1 = document.getElementById("door1");
+const inventoryList = document.getElementById("inventoryList");
+const sec = 1000;
+const offsetCharacter = 16; // Assuming the character's width is 32px and height is 64px
+const counterAvatar = document.getElementById("coungterAvatar")
+const mainCharacterSpeech = document.getElementById("mainCharacterSpeech");
+const counterrSpeech = document.getElementById("counterSpeech");
 
+const gameState = {
+    door2locked: true,
+    inventory: []
+};
 
-const inventoryBox  = document.getElementById("inventoryBox")
-const inventoryList  = document.getElementById("inventoryList")
-//FOREGROUND 
-    const door1 = document.getElementById("door1")
-//maincharatcer
-const MainCharacter = document.getElementById("mainCharcter");
-const offsetCharcater =40;
-
-GameWindow.onclick = function(e)
-{
+GameWindow.addEventListener("click", function (e) {
     var rect = GameWindow.getBoundingClientRect();
     var X = e.clientX - rect.left;
     var Y = e.clientY - rect.top;
-    MainCharacter.style.left = X - offsetCharcater +"px";
-    MainCharacter.style.top = Y - offsetCharcater +"px";
-    console.log(e.target.id);
+    MainCharacter.style.left = X - offsetCharacter + "px";
+    MainCharacter.style.top = Y - offsetCharacter + "px";
 
-    switch(e.target.id)
-    {
-       
-     case "door1":
-        MainCharacter.style.backgroundColor ="#ffff00"
-    door1.style.opacity = 0.7;
-    if(document.getElementById("key1") !== null){
+    switch (e.target.id) {
+        case "door1":
+           
+            door1.style.opacity = 0.7;
+            if (!gameState.inventory.includes("key")) {
+                console.log("FOUND KEY");
+                const Keyelement = document.createElement("li");
+                Keyelement.id = "inv-Key";
+                Keyelement.innerText = "key";
+                inventoryList.appendChild(Keyelement);
+                gameState.inventory.push("key");
+            }
+            break;
+        case "door2":
+            if (gameState.door2locked) {
+                if (gameState.inventory.includes("key")) {
+                    gameState.door2locked = false;
+                    console.log("Door unlocked!");
+                    // Remove key from inventory
+                    gameState.inventory.splice(gameState.inventory.indexOf("key"), 1);
+                    const keyElement = document.getElementById("inv-Key");
+                    if (keyElement) {
+                        keyElement.remove();
+                    }
+                } else {
+                    alert("Door is locked!");
+                }
+            } else {
+                console.log("Enter building");
+            }
+            break;
+            case "satue":
+            showMessage(mainCharacterSpeech,"wow")
+            setTimeout(function(){counterAvatar.style.opacity = 1;}, 4*sec);
+            setTimeout(showMessage,4*sec,counterrSpeech,"pipi")
+            setTimeout(showMessage,8*sec,mainCharacterSpeech,"pi")
+            setTimeout(function(){counterAvatar.style.opacity = 0;}, 12*sec);
 
-        console.log  ("FOUND KEY");
-        document.getElementById("key1").remove();
-        const Keyelement = document.createElement("li");
-        Keyelement.id= "inv-KEy"
-        Keyelement.innerText = "key";
-        inventoryList.appendChild(Keyelement);
-   
+
+            break;
+        default:
+            
+            door1.style.opacity = 1;
+            break;
     }
-        
-     break;
-     case "door2":
+});
 
-     
+/**
+ * 
+ *  @param {HTMLElement} targetballoon
+ * @param {string} message
+ */
 
-     break;
-     default:
-        MainCharacter.style.backgroundColor ="#ffff00"
-    door1.style.opacity = 1;
-
-     break;
-    }
-
-
- 
- 
+function showMessage(targetballoon, message) {
+    targetballoon.style.opacity = "1";
+    targetballoon.innerText = message;
+    setTimeout(function () { hideMessage(targetballoon); }, 4 * sec);
 }
+
+function hideMessage(targetballoon) {
+    targetballoon.style.opacity = "0";
+}
+
+// Example usage of showMessage
+setTimeout(function () { showMessage(mainCharacterSpeech, "Hello!"); }, 1 * sec);
+setTimeout(function () { hideMessage(mainCharacterSpeech); }, 2 * sec);

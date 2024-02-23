@@ -1,44 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/main.css">
-
-    <title>point and click adventure</title>
-</head>
-
-<body>
-    <div id="title">
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/main.css">
+        <title>Point and Click Adventure</title>
+        </head>
+        <body>
+        <div id="title">
         <h1 id="mainTitle"></h1>
-    </div>
-    <div id="gameWindow">
-
+        </div>
+        <div id="gameWindow">
         <div id="dialogBar" class="foreground">
-            <div id="setMainDialog">
-                <div id="mainCharacterSpeech" class="foreground"></div>
-
-                <div id="counterSpeech" class="foreground"></div>
-                <div id="brownBar"></div>
-            </div>
+        <div id="setMainDialog">
+        <div id="mainCharacterAvatar" class="foreground"></div>
+        <div id="mainCharacterSpeech" class="foreground speech-bubble">
+        <img src="assets/player/" alt="mainCharacter">
         </div>
-
-
+        <div id="counterAvatar" class="foreground">
+        <img id="counterAvatarimg" src="assets/statue/portairStatue.png" alt="">
+        </div>
+        <div id="counterSpeech" class="foreground"></div>
+        <div id="brownBar"></div>
+        </div>
+        </div>
         <div id="inventoryBox" class="foreground">
-            <p>Inventory</p>
-            <ul id="inventoryList">
-
-            </ul>
+        <p>Inventory</p>
+        <ul id="inventoryList"></ul>
         </div>
-
         <div id="key1" class="foreground"></div>
         <div id="door1" class="foreground"></div>
-       <div id="door2" class="foreground"></div>
-        <div id="mainCharcter" class="herocharacter"></div>
-        <div id="tilemap" class="Background"> <img src="assets/map/tilemap1.jpg" draggable="false" alt="tilemap1"></div>
-    </div>
-    <script src="js/main.js"></script>
-</body>
-
-</html>
+        <div id="door2" class="foreground"></div>
+        <div id="statue" class="foreground"></div>
+        <div id="mainCharacter" class="herocharacter">
+        <img src="assets/player/animated-character-1-idle.gif" alt="">
+        </div>
+        <div id="tilemap" class="Background">
+        <img src="assets/map/tilemap1.jpg" draggable="false" alt="tilemap level 1">
+        </div>
+        </div>
+        <script src="js/main.js"></script>
+        </body>
+        </html>

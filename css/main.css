@@ -28,62 +28,55 @@ p {
     height: 608px;
     grid-column-start: 2;
     grid-row-start: 2;
-
     background-color: blue;
 }
 
-#mainCharcter {
+#mainCharacter {
     width: 32px;
     height: 64px;
-    background-color: aquamarine;
+    
     left: 400px;
     top: 304px;
 }
-  
-#tilemap
+
+#counteravatarimg
 {
+    opacity: 0;
+}
+  
+#tilemap {
+    position: absolute;
     width: 980px;
-    height:  608px;
+    height: 608px;
     top: 0px;
     left: 0px;
-    
 }
 
-
-#door2
-{
-
+#door1 {
+    width: 41px;
+    height: 48px;
+    
+    opacity: 1;
+    top: 80px;
+    left: 491px;
+}
+#door2 {
     width: 44px;
     height: 54px;
-    background-color: hotpink;
-    opacity: 2;
-    top: 310px;
-    left: 110px;
+   
+    top: 296px;
+    left: 169px;
 }
-#door1
-{
-
-    width: 64px;
-    height: 64px;
-    background-color: hotpink;
-    opacity: 2;
-    top: 150px;
-    left: 400px;
-}
-#key1
-{
-
+#key1 {
     width: 32px;
     height: 32px;
-    background-color: rgb(246, 255, 0);
+    
     opacity: 1;
-    top: 166px;
-    left: 416px;
+    top: 86px;
+    left: 491px;
 }
-
 #inventoryBox {
     position: relative;
-    display: block;
     left: 10px;
     top: 10px;
     width: 180px;
@@ -104,18 +97,9 @@ p {
     width: 800px;
 }
 
-#brownBar {
-    position: absolute;
-    height: 32px;
-    width: 800px;
-    background-color: #442c1c;
-    bottom: 0px;
-}
-
 #mainCharacterSpeech {
-    left: 0px;
-    bottom: 0px;
-    background-color: red;
+    left: 72px;
+    top: 0px;
     width: 100px;
     height: 100px;
 }
@@ -123,9 +107,27 @@ p {
 #counterSpeech {
     right: 0px;
     bottom: 0px;
-    background-color: red;
+    
     width: 100px;
     height: 100px;
+}
+
+.speech-bubble {
+    background-color: aliceblue;
+    border-radius: 60px;
+    color: #000000;
+    padding: 5px 20px;
+    font-size: 12px;
+    width: 300px;
+    transition: opacity 0.5s ease-in-out; /* Added missing semicolon */
+}
+
+#brownBar {
+    position: absolute;
+    height: 20px;
+    width: 100%;
+    background-color: #442c1c;
+    bottom: 0px;
 }
 
 .foreground {
@@ -142,4 +144,13 @@ p {
     position: absolute;
     z-index: 100;
     transition: all 1s ease-in-out;
+}
+
+#statue
+{
+    width: 32;
+    height: 64;
+    top: 248px;
+    left: 704px;
+    background-color: rgb(142, 109, 67);
 }
