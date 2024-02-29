@@ -1,90 +1,183 @@
-document.getElementById("mainTitle").innerText = "Point and Click Adventure Game";
-
-const GameWindow = document.getElementById("gameWindow");
-const MainCharacter = document.getElementById("mainCharacter");
-const door1 = document.getElementById("door1");
-const inventoryList = document.getElementById("inventoryList");
-const sec = 1000;
-const offsetCharacter = 16; // Assuming the character's width is 32px and height is 64px
-const counterAvatar = document.getElementById("coungterAvatar")
-const mainCharacterSpeech = document.getElementById("mainCharacterSpeech");
-const counterrSpeech = document.getElementById("counterSpeech");
-
-const gameState = {
-    door2locked: true,
-    inventory: []
+document.getElementById("mainTitle").innerText = "Point and Click adventure game";
+let gameState = {
+    "door2locked": true,
+    "inventory": [],
+    "keyPickedUp": false
 };
 
-GameWindow.addEventListener("click", function (e) {
-    var rect = GameWindow.getBoundingClientRect();
-    var X = e.clientX - rect.left;
-    var Y = e.clientY - rect.top;
-    MainCharacter.style.left = X - offsetCharacter + "px";
-    MainCharacter.style.top = Y - offsetCharacter + "px";
+if (typeof Storage !== "undefined") {
+    if (localStorage.gameState) {
+        gameState = JSON.parse(localStorage.gameState);
+    } else {
+        localStorage.setItem("gameState", JSON.stringify(gameState));
+    }
+}
 
+//Game window reference
+const gameWindow = document.getElementById("gameWindow");
+
+//Game state
+if (gameState.keyPickedUp) {
+    document.getElementById("key1").remove();
+}
+
+const sec = 1000;
+
+//Main Character
+const mainCharacter = document.getElementById("mainCharacter");
+const offsetCharacter = 16;
+
+//speech bubbles
+const mainCharacterSpeech = document.getElementById("mainCharacterSpeech");
+const counterSpeech = document.getElementById("counterSpeech");
+const counterAvatarImg = document.getElementById("counterAvatarImg");
+const mcAudio = document.getElementById("mcAudio");
+const cAudio = document.getElementById("cAudio");
+
+//Inventory
+const inventoryBox = document.getElementById("inventoryBox"); //div
+const inventoryList = document.getElementById("inventoryList"); //ul
+
+//Foreground Items
+const door1 = document.getElementById("door1");
+const sign = document.getElementById("sign");
+
+updateInventory(gameState.inventory, inventoryList);
+
+gameWindow.onclick = function (e) {
+    var rect = gameWindow.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+    if (e.target.id !== "mainCharacter") {
+        mainCharacter.style.left = x - offsetCharacter + "px";
+        mainCharacter.style.top = y - offsetCharacter + "px";
+    }
+
+    console.log(e.target.id);
     switch (e.target.id) {
         case "door1":
-           
-            door1.style.opacity = 0.7;
-            if (!gameState.inventory.includes("key")) {
-                console.log("FOUND KEY");
-                const Keyelement = document.createElement("li");
-                Keyelement.id = "inv-Key";
-                Keyelement.innerText = "key";
-                inventoryList.appendChild(Keyelement);
-                gameState.inventory.push("key");
+            sign.style.opacity = 1;
+            if (document.getElementById("key1") !== null) {
+                console.log('Found key!');
+                document.getElementById("key1").remove();
+                changeInventory('key', 'add');
+                saveToBrowser(gameState);
             }
             break;
+
         case "door2":
-            if (gameState.door2locked) {
-                if (gameState.inventory.includes("key")) {
+            if (gameState.door2locked == true) {
+                // check if we have key
+                if (document.getElementById("inv-key") !== null) {
+                    //yes -> unlock door?
                     gameState.door2locked = false;
-                    console.log("Door unlocked!");
-                    // Remove key from inventory
-                    gameState.inventory.splice(gameState.inventory.indexOf("key"), 1);
-                    const keyElement = document.getElementById("inv-Key");
-                    if (keyElement) {
-                        keyElement.remove();
-                    }
+                    changeInventory('key', 'delete');
+                    console.log('Door unlocked!');
+                    saveToBrowser(gameState);
                 } else {
+                    //no -> alert 'door locked'
                     alert("Door is locked!");
                 }
             } else {
-                console.log("Enter building");
+                console.log('enter building');
             }
             break;
-            case "satue":
-            showMessage(mainCharacterSpeech,"wow")
-            setTimeout(function(){counterAvatar.style.opacity = 1;}, 4*sec);
-            setTimeout(showMessage,4*sec,counterrSpeech,"pipi")
-            setTimeout(showMessage,8*sec,mainCharacterSpeech,"pi")
-            setTimeout(function(){counterAvatar.style.opacity = 0;}, 12*sec);
 
-
+        case "sign":
+            sign.style.opacity = 0.5;
             break;
+
+        case "statue":
+            showMessage(mainCharacterSpeech, mcAudio, "Wow cool statue..");
+            setTimeout(function () { counterAvatarImg.style.opacity = 1; }, 4 * sec);
+            setTimeout(showMessage, 4 * sec, counterSpeech, cAudio, "I can talk you know..dummy");
+            setTimeout(showMessage, 8 * sec, mainCharacterSpeech, mcAudio, "You don't have to be so mean.");
+            setTimeout(showMessage, 12 * sec, counterSpeech, cAudio, "You should check the north house..");
+            setTimeout(function () { counterAvatarImg.style.opacity = 0; }, 16 * sec);
+            break;
+
         default:
-            
-            door1.style.opacity = 1;
+            //explode
+            sign.style.opacity = 1;
             break;
     }
-});
+}
+
+/**
+ * function to change inventory
+ * @param {string} itemName 
+ * @param {string} action "add", "delete"
+ * @returns 
+ */
+function changeInventory(itemName, action) {
+    if (itemName == null || action == null) {
+        console.log('wrong parameters given to changeInventory()');
+        return;
+    }
+
+    switch (action) {
+        case 'add':
+            gameState.inventory.push(itemName);
+            break;
+        case 'delete':
+            gameState.inventory.find(function (item, index) {
+                if (item == itemName) {
+                    var index = gameState.inventory.indexOf(item);
+                    if (index !== -1) {
+                        gameState.inventory.splice(index, 1);
+                    }
+                }
+            });
+            break;
+        default:
+            break;
+    }
+    updateInventory(gameState.inventory, inventoryList);
+}
+
+/**
+ * update inventoryList
+ * @param {Array} inventory array of items 
+ * @param {HTMLElement} inventoryList html <ul> element 
+ */
+function updateInventory(inventory, inventoryList) {
+    inventoryList.innerHTML = '';
+    inventory.forEach(function (item) {
+        const inventoryItem = document.createElement("li");
+        inventoryItem.id = "inv-" + item;
+        inventoryItem.innerText = item;
+        inventoryList.appendChild(inventoryItem);
+    });
+}
+
+/**
+ * Shows a message in a speech bubble
+ * @param {getElementById} targetBalloon 
+ * @param {getElementById} targetSound 
+ * @param {string} message 
+ */
+function showMessage(targetBalloon, targetSound, message) {
+    targetSound.currentTime = 0;
+    targetSound.play();
+    targetBalloon.style.opacity = "1";
+    targetBalloon.innerText = message;
+    setTimeout(hideMessage, 4 * sec, targetBalloon, targetSound);
+}
+
+/**
+ * Set the opacity to 0
+ * @param {getElementById} targetBalloon 
+ * @param {getElementById} targetSound 
+ */
+function hideMessage(targetBalloon, targetSound) {
+    targetSound.pause();
+    targetBalloon.style.opacity = "0";
+}
 
 /**
  * 
- *  @param {HTMLElement} targetballoon
- * @param {string} message
+ * @param {object} gameState 
  */
-
-function showMessage(targetballoon, message) {
-    targetballoon.style.opacity = "1";
-    targetballoon.innerText = message;
-    setTimeout(function () { hideMessage(targetballoon); }, 4 * sec);
+function saveToBrowser(gameState) {
+    localStorage.setItem("gameState", JSON.stringify(gameState));
 }
-
-function hideMessage(targetballoon) {
-    targetballoon.style.opacity = "0";
-}
-
-// Example usage of showMessage
-setTimeout(function () { showMessage(mainCharacterSpeech, "Hello!"); }, 1 * sec);
-setTimeout(function () { hideMessage(mainCharacterSpeech); }, 2 * sec);
