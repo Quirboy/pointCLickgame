@@ -58,7 +58,7 @@ gameWindow.onclick = function (e) {
         case "door1":
             sign.style.opacity = 1;
             if (document.getElementById("key1") !== null) {
-                console.log('Found key!');
+                showMessage(mainCharacterSpeech, mcAudio, "Wow i foun ");
                 document.getElementById("key1").remove();
                 changeInventory('key', 'add');
                 saveToBrowser(gameState);
@@ -83,9 +83,7 @@ gameWindow.onclick = function (e) {
             }
             break;
 
-        case "sign":
-            sign.style.opacity = 0.5;
-            break;
+        
 
         case "statue":
             showMessage(mainCharacterSpeech, mcAudio, "Wow cool statue..");
