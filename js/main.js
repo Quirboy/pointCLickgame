@@ -1,102 +1,112 @@
 document.getElementById("mainTitle").innerText = "Point and Click adventure game";
-let gameState = {
-    "door2locked": true,
-    "inventory": [],
-    "keyPickedUp": false
-};
-
-if (typeof Storage !== "undefined") {
-    if (localStorage.gameState) {
-        gameState = JSON.parse(localStorage.gameState);
-    } else {
-        localStorage.setItem("gameState", JSON.stringify(gameState));
-    }
-}
 
 //Game window reference
 const gameWindow = document.getElementById("gameWindow");
 
-//Game state
-if (gameState.keyPickedUp) {
-    document.getElementById("key1").remove();
-}
+
+// Game state
+ gameState = {
+    "castlelocked": true,
+    "inventory": []
+};
 
 const sec = 1000;
 
-//Main Character
+// Main Character
 const mainCharacter = document.getElementById("mainCharacter");
 const offsetCharacter = 16;
 
-//speech bubbles
+// Speech bubbles
 const mainCharacterSpeech = document.getElementById("mainCharacterSpeech");
 const counterSpeech = document.getElementById("counterSpeech");
 const counterAvatarImg = document.getElementById("counterAvatarImg");
-const mcAudio = document.getElementById("mcAudio");
-const cAudio = document.getElementById("cAudio");
 
-//Inventory
-const inventoryBox = document.getElementById("inventoryBox"); //div
-const inventoryList = document.getElementById("inventoryList"); //ul
+// Inventory
+const inventoryBox = document.getElementById("inventoryBox");
+const inventoryList = document.getElementById("inventoryList");
 
-//Foreground Items
-const door1 = document.getElementById("door1");
-const sign = document.getElementById("sign");
-
-updateInventory(gameState.inventory, inventoryList);
+// Foreground Items
+const TombeStone = document.getElementById("TombeStone");
+const TombeStone2 = document.getElementById("TombeStone2");
+const Hole = document.getElementById("Hole");
+const forrest = document.getElementById("forrest");
+const cave = document.getElementById("cave");
+const castel = document.getElementById("castel");
+const Sign = document.getElementById("Sign");
 
 gameWindow.onclick = function (e) {
     var rect = gameWindow.getBoundingClientRect();
     var x = e.clientX - rect.left;
     var y = e.clientY - rect.top;
-    if (e.target.id !== "mainCharacter") {
+    if (e.target.id !== "mcImage") {
         mainCharacter.style.left = x - offsetCharacter + "px";
         mainCharacter.style.top = y - offsetCharacter + "px";
     }
 
     console.log(e.target.id);
     switch (e.target.id) {
-        case "door1":
-            sign.style.opacity = 1;
+        
+        
+        case "Sign":
+            showMessage(mainCharacterSpeech, "It's just a sign.");
+            break;
+        case "Hole":
+            showMessage(mainCharacterSpeech, "It's a hole.");
+            alert("You almost fell into the hole!");
+            break;
+        case "cave":
+            showMessage(mainCharacterSpeech, "Hello anybody here?");
+            setTimeout(function () { counterAvatarImg.style.opacity = 1; }, 4 * sec);
+            setTimeout(showMessage, 3 * sec, counterSpeech, "Boo");
+            setTimeout(showMessage, 8 * sec, mainCharacterSpeech, "What are you doing here?");
+            setTimeout(showMessage, 12 * sec, counterSpeech, "waiting for you ");
+            setTimeout(showMessage, 16 * sec, mainCharacterSpeech, "why and why tell me to go here.");
+            setTimeout(showMessage, 12 * sec, counterSpeech, " I am just lonely and bored so i need someone to talk to");
+            setTimeout(showMessage, 16 * sec, mainCharacterSpeech, "oh oke(weird).");
+            setTimeout(showMessage, 12 * sec, counterSpeech, "for your troublles here are the key ");
             if (document.getElementById("key1") !== null) {
-                showMessage(mainCharacterSpeech, mcAudio, "Wow i foun ");
+                console.log('Found key!');
                 document.getElementById("key1").remove();
                 changeInventory('key', 'add');
-                saveToBrowser(gameState);
             }
+            setTimeout(showMessage, 16 * sec, mainCharacterSpeech, "Thank you.");
+            setTimeout(function () { counterAvatarImg.style.opacity = 0; }, 20 * sec);
             break;
-
-        case "door2":
-            if (gameState.door2locked == true) {
-                // check if we have key
+        case "TombeStone":
+            showMessage(mainCharacterSpeech, "Wow a grave..");
+            setTimeout(function () { counterAvatarImg.style.opacity = 1; }, 4 * sec);
+            setTimeout(showMessage, 3 * sec, counterSpeech, "boo");
+            setTimeout(showMessage, 8 * sec, mainCharacterSpeech, "You don't have to be so mean.");
+            setTimeout(showMessage, 12 * sec, counterSpeech, "than don't interupt my sleep");
+            setTimeout(showMessage, 16 * sec, mainCharacterSpeech, "Okay Bye.");
+            setTimeout(function () { counterAvatarImg.style.opacity = 0; }, 20 * sec);
+            break;
+        case "TombeStone2":
+            showMessage(mainCharacterSpeech, "Wow a grave..");
+            setTimeout(function () { counterAvatarImg.style.opacity = 1; }, 4 * sec);
+            setTimeout(showMessage, 4 * sec, counterSpeech, "hello can i help you");
+            setTimeout(showMessage, 8 * sec, mainCharacterSpeech, "wow a ghost .");
+            setTimeout(showMessage, 12 * sec, mainCharacterSpeech, "can you help enter the castle .");
+            setTimeout(showMessage, 16 * sec, counterSpeech, "sorry no maby you find your answers in the cave");
+            setTimeout(showMessage, 20 * sec, mainCharacterSpeech, "Okay thank you have a great day/ life?.");
+            setTimeout(function () { counterAvatarImg.style.opacity = 0; }, 24 * sec);
+            break;
+        case "castel":
+            if (gameState.castlelocked == true) {
                 if (document.getElementById("inv-key") !== null) {
-                    //yes -> unlock door?
                     gameState.door2locked = false;
                     changeInventory('key', 'delete');
                     console.log('Door unlocked!');
-                    saveToBrowser(gameState);
+                    alert(" This is the end");
                 } else {
-                    //no -> alert 'door locked'
                     alert("Door is locked!");
                 }
             } else {
-                console.log('enter building');
+                console.log('this is the end for now');
             }
             break;
-
-        
-
-        case "statue":
-            showMessage(mainCharacterSpeech, mcAudio, "Wow cool statue..");
-            setTimeout(function () { counterAvatarImg.style.opacity = 1; }, 4 * sec);
-            setTimeout(showMessage, 4 * sec, counterSpeech, cAudio, "I can talk you know..dummy");
-            setTimeout(showMessage, 8 * sec, mainCharacterSpeech, mcAudio, "You don't have to be so mean.");
-            setTimeout(showMessage, 12 * sec, counterSpeech, cAudio, "You should check the north house..");
-            setTimeout(function () { counterAvatarImg.style.opacity = 0; }, 16 * sec);
-            break;
-
+       
         default:
-            //explode
-            sign.style.opacity = 1;
             break;
     }
 }
@@ -110,13 +120,13 @@ gameWindow.onclick = function (e) {
 function changeInventory(itemName, action) {
     if (itemName == null || action == null) {
         console.log('wrong parameters given to changeInventory()');
-        return;
+        return
     }
 
     switch (action) {
         case 'add':
             gameState.inventory.push(itemName);
-            break;
+            break
         case 'delete':
             gameState.inventory.find(function (item, index) {
                 if (item == itemName) {
@@ -125,8 +135,9 @@ function changeInventory(itemName, action) {
                         gameState.inventory.splice(index, 1);
                     }
                 }
-            });
-            break;
+            })
+            break
+
         default:
             break;
     }
@@ -145,37 +156,25 @@ function updateInventory(inventory, inventoryList) {
         inventoryItem.id = "inv-" + item;
         inventoryItem.innerText = item;
         inventoryList.appendChild(inventoryItem);
-    });
+    })
 }
 
 /**
  * Shows a message in a speech bubble
  * @param {getElementById} targetBalloon 
- * @param {getElementById} targetSound 
  * @param {string} message 
  */
-function showMessage(targetBalloon, targetSound, message) {
-    targetSound.currentTime = 0;
-    targetSound.play();
+function showMessage(targetBalloon,message) {
     targetBalloon.style.opacity = "1";
     targetBalloon.innerText = message;
-    setTimeout(hideMessage, 4 * sec, targetBalloon, targetSound);
+    setTimeout(hideMessage, 4 * sec, targetBalloon);
 }
 
 /**
  * Set the opacity to 0
  * @param {getElementById} targetBalloon 
- * @param {getElementById} targetSound 
  */
-function hideMessage(targetBalloon, targetSound) {
-    targetSound.pause();
+function hideMessage(targetBalloon) {
+    
     targetBalloon.style.opacity = "0";
-}
-
-/**
- * 
- * @param {object} gameState 
- */
-function saveToBrowser(gameState) {
-    localStorage.setItem("gameState", JSON.stringify(gameState));
 }

@@ -5,12 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inika:wght@400;700&family=Protest+Riot&display=swap"
-        rel="stylesheet">
+    
 
-    <title>point and click adventure</title>
+    <title>Point and Click Adventure Game</title>
 </head>
 
 <body>
@@ -23,12 +20,12 @@
         <div id="dialogBar" class="foreground">
             <div id="setMainDialog">
                 <div id="mainCharacterAvatar" class="foreground">
-                    <img src="assets/player/portairt.png" alt="main character avatar">
+                    <img src="assets/player/Player64.png" alt="main character avatar">
                 </div>
                 <div id="mainCharacterSpeech" class="foreground speech-bubble">...</div>
                 <div id="counterSpeech" class="foreground speech-bubble">...</div>
                 <div id="counterAvatar" class="foreground">
-                    <img id="counterAvatarImg" src="assets/statue/portairStatue.png" alt="counter avatar">
+                    <img id="counterAvatarImg" src="assets/player/4011433-middle.png" alt="counter avatar">
                 </div>
                 <div id="brownBar"></div>
             </div>
@@ -45,32 +42,25 @@
 
         <!--Foreground items-->
         <div id="key1" class="foreground"></div>
-        <div id="door1" class="foreground"></div>
-        <div id="door2" class="foreground"></div>
-
-        <div id="sign" class="foreground"></div>
-        <div id="statue" class="foreground"></div>
+        <div id="TombeStone" class="foreground"></div>
+        <div id="TombeStone2" class="foreground"></div>
+        <div id="Hole" class="foreground"></div>
+        <div id="Sign" class="foreground"></div>
+        <div id="forrest" class="foreground"></div>
+        <div id="cave" class="foreground"></div>
+        <div id="castel" class="foreground"></div>
 
         <!--Main character-->
         <div id="mainCharacter" class="heroCharacter">
-            <img id="mcImage" draggable="false" src="assets/player/animated-character-1-idle.gif" alt="main character">
+            <img id="mcImage" draggable="false" src="assets/player/Player.png" alt="main character">
         </div>
 
         <!--Background-->
         <div id="tilemap" class="background">
-            <img src="assets/map/tilemap1.jpg" draggable="false" alt="tilemap level 1">
+            <img src="assets/map/Untitled-2.png" draggable="false" alt="tilemap level 1">
         </div>
     </div>
-    <div id="house" class="houseInside">
-        <img src="assets/Images/map/PointAndClickAdventurehouse.png" draggable="false" alt=" house ">
-    </div>
 
-    <audio id="mcAudio">
-        <source src="assets/audio/Gibberish - Sound Effect_01.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="cAudio">
-        <source src="assets/audio/high pitch voice.mp3" type="audio/mpeg">
-    </audio>
     <script src="js/main.js"></script>
 </body>
 
